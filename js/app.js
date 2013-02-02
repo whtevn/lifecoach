@@ -1,3 +1,5 @@
 'use strict';
 
-var lifeCoach = angular.module("lifeCoach", ['ngResource']);
+var lifeCoach = angular.module("lifeCoach", []);
+
+lifeCoach.value('API_ROOT', "/~evanshort/lifecoach/api/routes.php");

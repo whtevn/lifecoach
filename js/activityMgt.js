@@ -1,22 +1,17 @@
 'use strict';
 
-// definitely need to figure out how to make a module
-// for this instance stuff
-lifeCoach.service("ActivityMgt", function($resource){
+lifeCoach.service("ActivityMgt", function(){
   var ActivityMgt = {};
   ActivityMgt.activities = {};
-  ActivityMgt.resource = $resource("/api/activity/");
 
   ActivityMgt.newActivity = function(activityData){
     var completeBy = ActivityMgt.completeBy;
     var activity = {
       id: (activityData.id || "activity_"+Math.floor((Math.random()*1000)+1)+'-'+Math.floor((Math.random()*1000)+1)),
 
-      resource: $resource("/api/activity/:id", {"id": '@id'}),
-
       isBeingEdited: false,
 
-      displayCopy: angular.extend({ completed: 0, createdAt: new Date(), lastUpdated: new Date(), dirty: true}, activityData),
+      displayCopy: angular.extend({ completed: 0, createdAt: new Date(), lastUpdated: null, dirty: true}, activityData),
 
       completeBy:  function(percent){
         completeBy(this.displayCopy, percent);
@@ -53,6 +48,14 @@ lifeCoach.service("ActivityMgt", function($resource){
 
   ActivityMgt.remove = function(activity){
     delete this.activities[activity.id];  
+  }
+
+  ActivityMgt.mergeIn = function(activities){
+    angular.forEach(activities, function(activity){
+      if(!activities[activity.id] || (activity.lastUpdated && activity.lastUpdated > activities[activity.id].lastUpdated)){
+        angular.extend(activities[activity.id], activity);
+      }
+    });
   }
 
   // held outside to make a completeness plugin

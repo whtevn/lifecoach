@@ -6,33 +6,30 @@
     'debug' => true
   ));
 
-  $activity = new ActivityCtl();
+  $app->post('/activity/', function (){
+   header("Content-Type: application/json");
+   echo json_encode(array('id'=>'values'));
+   exit;
+  });
 
-  $app->post('/activity', $activity->create);
-  $app->put('/activity/:id', $activity->update);
-  $app->get('/activity/:id', $activity->get);
+  $app->put('/activity/:id', function (){
+   header("Content-Type: application/json");
+   echo json_encode(array('id'=>'values'));
+   exit;
+  });
+
+  $app->get('/activity/:id', function (){
+   header("Content-Type: application/json");
+   echo json_encode(array('id'=>'values'));
+   exit;
+  });
+
+  $app->get('/activity/', function (){
+   header("Content-Type: application/json");
+   echo json_encode(array('id'=>'values'));
+   exit;
+  });
 
   $app->run();
-
-  class ActivityCtl {
-    public function create(){
-     header("Content-Type: application/json");
-     echo json_encode(array());
-     exit;
-    }
-
-    public function update(){
-     header("Content-Type: application/json");
-     echo json_encode(array());
-     exit;
-    }
-
-    public function get(){
-     header("Content-Type: application/json");
-     echo json_encode(array());
-     exit;
-    }
-  }
-
 
 ?>
