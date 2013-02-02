@@ -1,6 +1,5 @@
 'use strict';
 
-
 // definitely need to figure out how to make a module
 // for this instance stuff
 lifeCoach.service("ActivityMgt", function($resource){

@@ -1,7 +1,7 @@
 'use strict';
 
 
-lifeCoach.controller("NewActivityCtl", function($scope, ActivityMgt){
+lifeCoach.controller("NewActivityCtl", function($scope, $http, ActivityMgt){
   $scope.activities = ActivityMgt.activities;
 
   $scope.addActivity = function(data){
@@ -11,7 +11,11 @@ lifeCoach.controller("NewActivityCtl", function($scope, ActivityMgt){
 
     localStorage[activity.id] = JSON.stringify(activity.displayCopy);
 
-    activity.resource.save();
+    $http.post("/api/activity/").
+      success(function(){
+      }).
+      error(function(){
+      })
 
     this.activity = null;
   }
@@ -22,12 +26,16 @@ lifeCoach.controller("ActivityTestCtl", function($scope, ActivityMgt){
   $scope.activities = ActivityMgt.activities;
 })
 
-lifeCoach.controller("ActivityDisplayCtl", function($scope, ActivityMgt){
+lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt){
   $scope.activities = ActivityMgt.activities;
 
   $scope.saveEdit = function(activity){
     localStorage[activity.id] = JSON.stringify(activity.commitEdit().displayCopy);
-    activity.resource.save();
+    $http.put("/api/activity/"+activity.id).
+      success(function(){
+      }).
+      error(function(){
+      })
   }
 
   $scope.cancelEdit = function(activity){
