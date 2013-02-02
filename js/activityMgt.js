@@ -8,7 +8,7 @@ lifeCoach.service("ActivityMgt", function($resource){
   ActivityMgt.newActivity = function(activityData){
     var completeBy = ActivityMgt.completeBy;
     var activity = {
-      id: (activityData.id || "activity_"+Math.floor((Math.random()*1000)+1)+'-'+Math.floor((Math.random()*1000)+1)),
+      id: "activity_"+Math.floor((Math.random()*1000)+1)+'-'+Math.floor((Math.random()*1000)+1),
 
       resource: $resource("/api/activity/:id", {"id": '@id'}),
 
