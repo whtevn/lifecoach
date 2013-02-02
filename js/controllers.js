@@ -1,10 +1,13 @@
+'use strict';
+
+
 lifeCoach.controller("NewActivityCtl", function($scope, ActivityMgt){
   $scope.activities = ActivityMgt.activities;
 
   $scope.addActivity = function(data){
     var activity = ActivityMgt.newActivity(this.activity);
 
-    ActivityMgt.activities.push(activity);
+    ActivityMgt.activities[activity.id] = activity;
 
     localStorage[activity.id] = JSON.stringify(activity.displayCopy);
 
@@ -14,6 +17,10 @@ lifeCoach.controller("NewActivityCtl", function($scope, ActivityMgt){
   }
 
 });
+
+lifeCoach.controller("ActivityTestCtl", function($scope, ActivityMgt){
+  $scope.activities = ActivityMgt.activities;
+})
 
 lifeCoach.controller("ActivityDisplayCtl", function($scope, ActivityMgt){
   $scope.activities = ActivityMgt.activities;
@@ -25,7 +32,6 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, ActivityMgt){
 
   $scope.cancelEdit = function(activity){
     activity.cancelEdit();
-    console.log(activity);
   }
 
   $scope.openForEdit = function(activity){
@@ -37,8 +43,13 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, ActivityMgt){
     $scope.saveEdit(activity);
   }
 
+  $scope.deleteActivity = function(activity){
+    ActivityMgt.remove(activity);
+    delete localStorage[activity.id];
+  }
+
   for(activity in localStorage){
     var activity = ActivityMgt.newActivity(JSON.parse(localStorage[activity]));
-    ActivityMgt.activities.push(activity);
+    ActivityMgt.activities[activity.id] = activity;
   };
 });

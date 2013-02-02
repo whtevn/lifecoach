@@ -60,6 +60,14 @@
       </form>
     </div>
 
+    <!--
+    <ul ng-controller="ActivityTestCtl">
+        <li ng-repeat="activity in activities">
+          {{activity.displayCopy.name}} - {{activity.displayCopy.completed*100}}% 
+        </li>
+    </ul>
+    -->
+
     <div ng-controller="ActivityDisplayCtl">
       <ul id="activityList">
         <li ng-repeat="activity in activities">
@@ -79,6 +87,7 @@
               <input type="text" ng-model="activity.editCopy.period" name="period" placeholder="period" />
               <input type="submit" value="Commit" />
               <input type="button" value="cancel" ng-click="cancelEdit(activity)" />
+              <input type="button" value="delete" ng-click="deleteActivity(activity)" />
             </form>
           </div>
         </li>
