@@ -1,19 +1,20 @@
 // definitely need to figure out how to make a module
 // for this instance stuff
-lifeCoach.service("ActivityMgt", function(localStorage){
-
+lifeCoach.service("ActivityMgt", function($resource){
   var ActivityMgt = {};
   ActivityMgt.activities = [];
+  ActivityMgt.resource = $resource("/api/activity/");
 
   ActivityMgt.newActivity = function(activityData){
-    // give activities a list of completions
-    // activity.completions = [];
-    // each time a completion rolls to 100%, a new completion with a 0% completed
     var completeBy = ActivityMgt.completeBy;
     var activity = {
+      id: "activity_"+Math.floor((Math.random()*1000)+1)+'-'+Math.floor((Math.random()*1000)+1),
+
+      resource: $resource("/api/activity/:id", {"id": '@id'}),
+
       isBeingEdited: false,
 
-      displayCopy: angular.extend({ completed: 0 }, activityData),
+      displayCopy: angular.extend({ completed: 0, createdAt: new Date(), lastUpdated: new Date()}, activityData),
 
       completeBy:  function(percent){
         completeBy(this.displayCopy, percent);
@@ -29,9 +30,11 @@ lifeCoach.service("ActivityMgt", function(localStorage){
         this.editCopy = null;
       },
 
-      saveEdit: function(){
+      commitEdit: function(){
+        this.displayCopy.lastUpdated = new Date();
         this.editCopy = angular.extend(this.displayCopy, this.editCopy);
         this.closeEditing();
+        return this;
       },
 
       cancelEdit: function(){
@@ -41,12 +44,11 @@ lifeCoach.service("ActivityMgt", function(localStorage){
       completions: []
     };
 
-    ActivityMgt.activities.push(activity);
-    ActivityMgt.saveActivities();
-  }
+    activity.displayCopy.id = activity.id;
 
-  ActivityMgt.saveActivities = function(activities){
-    DataStore.keep('activities', activities);
+
+
+    return(activity);
   }
 
   // held outside to make a completeness plugin

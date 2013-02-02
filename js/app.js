@@ -1,6 +1,5 @@
 'use strict';
 
-var lifeCoach = angular.module("lifeCoach", []);
+var lifeCoach = angular.module("lifeCoach", ['ngResource']);
 
-lifeCoach.value('localStorage', window.localStorage); 
 
