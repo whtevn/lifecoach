@@ -61,9 +61,11 @@ lifeCoach.service("ContextMgt", function(){
         contextName;
 
     angular.forEach(contexts.split(","), function(context){
-      context = context.replace(/^\s*@?|\s*$/g,'');
-      contextData = ContextMgt.newContext({name: "@"+context, id: context});
-      contextList[contextData.id] = ( opts.asDisplay ? contextData.displayCopy : contextData );
+      context = context.replace(/^\s*@?|\s*$/g,'').trim();
+      if(context.length > 0){
+        contextData = ContextMgt.newContext({id: "@"+context, name: context});
+        contextList[contextData.id] = ( (opts && opts.asDisplay) ? contextData.displayCopy : contextData );
+      }
     });
     
     return contextList;

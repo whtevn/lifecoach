@@ -9,6 +9,10 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
 
   $scope.saveEdit = function(activity){
     localStorage[activity.id] = JSON.stringify(activity.commitEdit().displayCopy);
+    angular.forEach(activity.contexts, function(context){
+      localStorage[context.id] = JSON.stringify(context);
+    });
+
     $http.put(API_ROOT+"/activity/"+activity.id, activity.displayCopy).
       success(function(data){
         ActivityMgt.mergeIn(data);
@@ -37,6 +41,7 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
 
   var activity,
       context
+
   for(var key in localStorage){
     if(key.match("^activity_")){
       activity = ActivityMgt.newActivity(JSON.parse(localStorage[key]));
