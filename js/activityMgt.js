@@ -17,7 +17,7 @@ lifeCoach.service("ActivityMgt", function($resource){
 
       isBeingEdited: false,
 
-      displayCopy: angular.extend({ completed: 0, createdAt: new Date(), lastUpdated: new Date()}, activityData),
+      displayCopy: angular.extend({ completed: 0, createdAt: new Date(), lastUpdated: new Date(), dirty: true}, activityData),
 
       completeBy:  function(percent){
         completeBy(this.displayCopy, percent);
@@ -49,18 +49,11 @@ lifeCoach.service("ActivityMgt", function($resource){
 
     activity.displayCopy.id = activity.id;
 
-
-
     return(activity);
   }
 
   ActivityMgt.remove = function(activity){
-    console.log(this.activities);  
     delete this.activities[activity.id];  
-  }
-
-  ActivityMgt.getActivities = function(){
-    return this.activities
   }
 
   // held outside to make a completeness plugin
