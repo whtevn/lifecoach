@@ -53,6 +53,7 @@
           <input type="text" ng-model="activity.context" name="context" placeholder="activity name" />
           <input type="text" ng-model="activity.duration" name="duration" placeholder="duration" />
           <input type="text" ng-model="activity.period" name="period" placeholder="period" />
+          <input type="text" ng-model="activity.contextList" name="contexts" placeholder="@work, @automotive, @yard, etc" /><!-- ng-pattern="/(@[a-zA-Z\s]*)(,|$)\s*/" -->
         </div>
         <div>
           <input type="submit" />
@@ -85,6 +86,7 @@
               <input type="text" ng-model="activity.editCopy.context" name="context" placeholder="activity name" />
               <input type="text" ng-model="activity.editCopy.duration" name="duration" placeholder="duration" />
               <input type="text" ng-model="activity.editCopy.period" name="period" placeholder="period" />
+              <input type="text" ng-model="activity.editCopy.contextList" name="contexts" placeholder="@work, @automotive, @yard, etc" />
               <input type="submit" value="Commit" />
               <input type="button" value="cancel" ng-click="cancelEdit(activity)" />
               <input type="button" value="delete" ng-click="deleteActivity(activity)" />
@@ -93,11 +95,14 @@
         </li>
       </ul>
     </div>
-    <script src="lib/underscore-min.js"></script>
+    <!-- <script src="lib/underscore-min.js"></script> -->
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular/angular-resource.min.js"></script>
+
     <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/activityMgt.js"></script>
+    <script src="js/controllers/activityDisplayCtl.js"></script>
+    <script src="js/controllers/newActivityCtl.js"></script>
+    <script src="js/models/activityMgt.js"></script>
+    <script src="js/models/contextMgt.js"></script>
   </body>
 </html>

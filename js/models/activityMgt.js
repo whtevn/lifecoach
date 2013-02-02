@@ -1,6 +1,6 @@
 'use strict';
 
-lifeCoach.service("ActivityMgt", function(){
+lifeCoach.service("ActivityMgt", function(ContextMgt){
   var ActivityMgt = {};
   ActivityMgt.activities = {};
 
@@ -42,6 +42,10 @@ lifeCoach.service("ActivityMgt", function(){
     };
 
     activity.displayCopy.id = activity.id;
+    activity.contexts = ContextMgt.contextify(activity.displayCopy.contextList, {asDisplay: true});
+    angular.forEach(activity.contexts, function(context){
+      context = context.displayCopy 
+    });
 
     return(activity);
   }
@@ -51,10 +55,15 @@ lifeCoach.service("ActivityMgt", function(){
   }
 
   ActivityMgt.mergeIn = function(activities){
+    var storedActivities = this.activities;
     angular.forEach(activities, function(activity){
-      if(!activities[activity.id] || (activity.lastUpdated && activity.lastUpdated > activities[activity.id].lastUpdated)){
-        angular.extend(activities[activity.id], activity);
-      }
+      // if the new activity was updated more recently
+      // merge it in
+      // if the activity id does not exist in storage
+      // merge it in
+      //if(!storedActivities[activity.id] || (activity.lastUpdated && activity.lastUpdated > activities[activity.id].lastUpdated)){
+        //angular.extend(activities[activity.id], activity);
+      //}
     });
   }
 
