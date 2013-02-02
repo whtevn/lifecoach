@@ -11,7 +11,7 @@ lifeCoach.service("ActivityMgt", function(ContextMgt){
 
       isBeingEdited: false,
 
-      displayCopy: angular.extend({ completed: 0, createdAt: new Date(), lastUpdated: null, dirty: true}, activityData),
+      displayCopy: angular.extend({ completed: 0, createdAt: +(new Date()), lastUpdated: null, dirty: true}, activityData),
 
       completeBy:  function(percent){
         completeBy(this.displayCopy, percent);
@@ -27,9 +27,19 @@ lifeCoach.service("ActivityMgt", function(ContextMgt){
         this.editCopy = null;
       },
 
+      updateContexts: function(){
+        this.contexts = ContextMgt.contextify(activity.displayCopy.contextList, {asDisplay: true});
+        angular.forEach(this.contexts, function(context){
+          context = context.displayCopy 
+        });
+      },
+
       commitEdit: function(){
         this.displayCopy.lastUpdated = new Date();
         this.editCopy = angular.extend(this.displayCopy, this.editCopy);
+        this.updateContexts();
+
+
         this.closeEditing();
         return this;
       },
@@ -42,10 +52,7 @@ lifeCoach.service("ActivityMgt", function(ContextMgt){
     };
 
     activity.displayCopy.id = activity.id;
-    activity.contexts = ContextMgt.contextify(activity.displayCopy.contextList, {asDisplay: true});
-    angular.forEach(activity.contexts, function(context){
-      context = context.displayCopy 
-    });
+    activity.updateContexts();
 
     return(activity);
   }

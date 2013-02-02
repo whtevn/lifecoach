@@ -6,12 +6,10 @@ lifeCoach.controller("NewActivityCtl", function($scope, $http, ActivityMgt, Cont
   $scope.addActivity = function(){
     var activity = ActivityMgt.newActivity(this.activity);
 
-    activity.contexts = ContextMgt.contextify(activity.displayCopy.contextList);
-
-    ContextMgt.mergeIn(activity.contexts);
+    ContextMgt.mergeIn(ContextMgt.contextify(activity.displayCopy.contextList));
 
     angular.forEach(activity.contexts, function(context){
-      localStorage[context.id] = JSON.stringify(context.displayCopy);
+      localStorage[context.id] = JSON.stringify(context);
     });
 
     ActivityMgt.activities[activity.id] = activity;

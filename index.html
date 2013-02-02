@@ -60,22 +60,22 @@
       </form>
     </div>
 
-    <!--
-    <ul ng-controller="ActivityTestCtl">
-        <li ng-repeat="activity in activities">
-          {{activity.displayCopy.name}} - {{activity.displayCopy.completed*100}}% 
-        </li>
-    </ul>
-    -->
-
     <div ng-controller="ActivityDisplayCtl">
+      <ul>
+        <li ng-repeat="context in contexts">
+          <input type="checkbox" /> {{context.id}}
+        </li>
+      </ul>
       <ul id="activityList">
-        <li ng-repeat="activity in activities">
-          {{activity.displayCopy.name}} - {{activity.displayCopy.completed*100}}% 
-          <a href="#" ng-click="completeBy(activity, 0.25)">25%</a>
-          <a href="#" ng-click="completeBy(activity, 0.50)">50%</a>
-          <a href="#" ng-click="completeBy(activity, 0.75)">75%</a>
-          <a href="#" ng-click="completeBy(activity, 1)">100%</a>
+        <li ng-repeat="activity in activities | orderBy: activity.displayCopy.createdAt">
+          <div>
+            {{activity.displayCopy.name}} - {{activity.displayCopy.completed*100}}% 
+            <a href="#" ng-click="completeBy(activity, 0.25)">25%</a>
+            <a href="#" ng-click="completeBy(activity, 0.50)">50%</a>
+            <a href="#" ng-click="completeBy(activity, 0.75)">75%</a>
+            <a href="#" ng-click="completeBy(activity, 1)">100%</a>
+          </div>
+          <div>{{activity.displayCopy.contextList}}</div>
           <div ng-class="{true: 'hide', false: ''}[activity.isBeingEdited]" >
             <a href="#" ng-click="openForEdit(activity)">edit</a>
           </div>
@@ -94,6 +94,7 @@
       </ul>
     </div>
     <!-- <script src="lib/underscore-min.js"></script> -->
+    <!-- <script src="lib/date.js"></script> -->
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular/angular-resource.min.js"></script>
 
