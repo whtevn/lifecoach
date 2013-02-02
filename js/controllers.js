@@ -38,7 +38,9 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, ActivityMgt){
   }
 
   for(activity in localStorage){
+    console.warn(JSON.parse(localStorage[activity]))
     var activity = ActivityMgt.newActivity(JSON.parse(localStorage[activity]));
+    console.log(activity)
     ActivityMgt.activities.push(activity);
   };
 });
