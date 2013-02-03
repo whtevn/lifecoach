@@ -1,9 +1,57 @@
 'use strict';
 
 lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, ContextMgt, API_ROOT){
-  $scope.activities = ActivityMgt.activities;
+
+  $scope.showNoContext = true;
+  $scope.activities = function(){
+    return $.map(ActivityMgt.activities, function(value){ return(value) });
+  }
   $scope.contexts = ContextMgt.contexts;
 
+  $scope.activeContexts = function(){
+    var a = _.filter(ContextMgt.contexts, function(context){
+      return context.displayCopy.isShowing;
+    });
+    console.log(a);
+    return a;
+  }
+
+  $scope.inActiveContext = function(activity){
+    var contextId; 
+    var activeContexts = $.map(ContextMgt.contexts, function(context){
+      if(context.displayCopy.isShowing){
+        contextId = context.id;
+      }else{
+        contextId = null;
+      }
+      return contextId;
+    });
+    var activityContexts = _.map(activity.contexts, function(context){
+      return context.id;
+    });
+
+// show if
+// has no contexts
+//  activityContexts.length == 0
+// yes to showNoContext
+//  $scope.showNoContext
+
+// has contexts
+//  activity.contexts.length != 0
+// that are active
+//  (_.intersection(activeContexts, activityContexts).length != 0)
+    return (
+            ((activityContexts.length == 0) &&
+              $scope.showNoContext) ||
+            (activity.contexts.length != 0) &&
+              (_.intersection(activeContexts, activityContexts).length != 0)
+            )
+
+  }
+
+  $scope.activeContexts = function(){
+    return true;
+  }
 
   $scope.saveEdit = function(activity){
     localStorage[activity.id] = JSON.stringify(activity.commitEdit().displayCopy);
@@ -40,6 +88,7 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
     ActivityMgt.remove(activity);
     delete localStorage[activity.id];
   }
+
 
   var activity,
       context

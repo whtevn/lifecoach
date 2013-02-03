@@ -52,7 +52,7 @@
           <input type="text" ng-model="activity.name" name="name" placeholder="activity name" />
           <input type="text" ng-model="activity.duration" name="duration" placeholder="duration" />
           <input type="text" ng-model="activity.period" name="period" placeholder="period" />
-          <input type="text" ng-model="activity.contextList" name="contexts" placeholder="@work, @automotive, @yard, etc" /><!-- ng-pattern="/(@[a-zA-Z\s]*)(,|$)\s*/" -->
+          <input type="text" ng-model="activity.contextList" name="contexts" placeholder="work, auto, yard, etc" /><!-- ng-pattern="/(@[a-zA-Z\s]*)(,|$)\s*/" -->
         </div>
         <div>
           <input type="submit" />
@@ -62,14 +62,17 @@
 
     <div ng-controller="ActivityDisplayCtl">
       <ul>
+        <li>
+          <input type="checkbox" ng-model="showNoContext" /> Not in context
+        </li>
         <li ng-repeat="context in contexts">
-          <input type="checkbox" /> {{context.id}}
+          <input type="checkbox" ng-model="context.displayCopy.isShowing" />  {{context.displayCopy.name}}
         </li>
       </ul>
       <ul id="activityList">
-        <li ng-repeat="activity in activities | orderBy: activity.displayCopy.createdAt">
+        <li ng-repeat="activity in activities() | orderBy:'displayCopy.createdAt':true | filter:inActiveContext">
           <div>
-            {{activity.displayCopy.name}} - {{activity.displayCopy.completed*100}}% 
+            {{activity.displayCopy.name}} - {{activity.displayCopy.completed*100}}%  
             <a href="#" ng-click="completeBy(activity, 0.25)">25%</a>
             <a href="#" ng-click="completeBy(activity, 0.50)">50%</a>
             <a href="#" ng-click="completeBy(activity, 0.75)">75%</a>
@@ -93,8 +96,9 @@
         </li>
       </ul>
     </div>
-    <!-- <script src="lib/underscore-min.js"></script> -->
+    <script src="lib/underscore-min.js"></script> 
     <!-- <script src="lib/date.js"></script> -->
+    <script src="lib/jquery.min.js"></script>
     <script src="lib/angular/angular.min.js"></script>
     <script src="lib/angular/angular-resource.min.js"></script>
 

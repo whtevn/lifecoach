@@ -10,7 +10,7 @@ lifeCoach.service("ContextMgt", function(){
 
       isBeingEdited: false,
 
-      displayCopy: angular.extend({ createdAt: +(new Date()), lastUpdated: null, dirty: true}, contextData),
+      displayCopy: angular.extend({isShowing: true, createdAt: +(new Date()), lastUpdated: null, dirty: true}, contextData),
 
 
       openForEdit: function(){
