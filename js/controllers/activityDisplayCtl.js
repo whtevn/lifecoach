@@ -4,21 +4,23 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
 
   $scope.showNoContext = true;
   $scope.activities = function(){
-    return $.map(ActivityMgt.activities, function(value){ return(value) });
+    return _.toArray(ActivityMgt.activities);
   }
-  $scope.contexts = ContextMgt.contexts;
+  $scope.contexts = function(){
+    return _.toArray(ContextMgt.contexts);
+  }
 
-  $scope.activeContexts = function(){
-    var a = _.filter(ContextMgt.contexts, function(context){
-      return context.displayCopy.isShowing;
-    });
-    console.log(a);
-    return a;
+  $scope.contextHasActivities = function(context){
+    console.log(ActivityMgt.activeContexts());
+    // check to see if context is
+    // in ActivityMgt.activeContexts()
+    // once ActivityMgt.activeContexts() is working
+    return true
   }
 
   $scope.inActiveContext = function(activity){
     var contextId; 
-    var activeContexts = $.map(ContextMgt.contexts, function(context){
+    var activeContexts = _.map(ContextMgt.contexts, function(context){
       if(context.displayCopy.isShowing){
         contextId = context.id;
       }else{
@@ -30,16 +32,16 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
       return context.id;
     });
 
-// show if
-// has no contexts
-//  activityContexts.length == 0
-// yes to showNoContext
-//  $scope.showNoContext
+    // show if
+    // has no contexts
+    //  activityContexts.length == 0
+    // yes to showNoContext
+    //  $scope.showNoContext
 
-// has contexts
-//  activity.contexts.length != 0
-// that are active
-//  (_.intersection(activeContexts, activityContexts).length != 0)
+    // has contexts
+    //  activity.contexts.length != 0
+    // that are active
+    //  (_.intersection(activeContexts, activityContexts).length != 0)
     return (
             ((activityContexts.length == 0) &&
               $scope.showNoContext) ||
@@ -49,9 +51,6 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
 
   }
 
-  $scope.activeContexts = function(){
-    return true;
-  }
 
   $scope.saveEdit = function(activity){
     localStorage[activity.id] = JSON.stringify(activity.commitEdit().displayCopy);
@@ -59,7 +58,6 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
     ContextMgt.mergeIn(ContextMgt.contextify(activity.displayCopy.contextList));
 
     angular.forEach(activity.contexts, function(context){
-      console.log(context);
       localStorage[context.id] = JSON.stringify(context);
     });
 
@@ -103,7 +101,5 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
     }
   };
 
-  console.log(ContextMgt.contexts);
-  console.log(ActivityMgt.activities);
 });
 

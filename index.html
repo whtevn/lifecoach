@@ -65,7 +65,7 @@
         <li>
           <input type="checkbox" ng-model="showNoContext" /> Not in context
         </li>
-        <li ng-repeat="context in contexts">
+        <li ng-repeat="context in contexts() | filter:contextHasActivities">
           <input type="checkbox" ng-model="context.displayCopy.isShowing" />  {{context.displayCopy.name}}
         </li>
       </ul>

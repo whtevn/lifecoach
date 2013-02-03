@@ -61,6 +61,13 @@ lifeCoach.service("ActivityMgt", function(ContextMgt){
     delete this.activities[activity.id];  
   }
 
+  ActivityMgt.activeContexts = function(){
+    // fix this 
+    return _.reduce(this.activities, function(activity, contexts){
+      return _.union(contexts, _.map(activity.contexts, function(c){ return c.id }));
+    }, [])
+  }
+
   ActivityMgt.mergeIn = function(activities){
     var storedActivities = this.activities;
     angular.forEach(activities, function(activity){
