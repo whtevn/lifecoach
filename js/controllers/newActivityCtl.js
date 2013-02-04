@@ -12,13 +12,14 @@ lifeCoach.controller("NewActivityCtl", function($scope, $http, ActivityMgt, Cont
       localStorage[context.id] = JSON.stringify(context);
     });
 
-    ActivityMgt.activities[activity.id] = activity;
+    
+    ActivityMgt.activities[activity.id] = activity; // currently taking the place of mergeIn
 
     localStorage[activity.id] = JSON.stringify(activity.displayCopy);
 
     $http.post(API_ROOT+"/activity/", activity.displayCopy).
       success(function(data){
-        ActivityMgt.mergeIn(data);
+        ActivityMgt.mergeIn(data); // currently does nothing
       })
 
     this.activity = null;

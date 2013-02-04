@@ -65,6 +65,12 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
       })*/
   }
 
+  $scope.allInContext = function(){
+    return (_.filter(ActivityMgt.activities, function(activity){
+      return _.size(activity.contexts) == 0
+    }).length == 0)
+  }
+
   $scope.cancelEdit = function(activity){
     activity.cancelEdit();
   }
