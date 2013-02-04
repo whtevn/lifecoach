@@ -62,10 +62,14 @@ lifeCoach.service("ActivityMgt", function(ContextMgt){
   }
 
   ActivityMgt.activeContexts = function(){
-    // fix this 
-    return _.reduce(this.activities, function(activity, contexts){
-      return _.union(contexts, _.map(activity.contexts, function(c){ return c.id }));
+    var contextRay;
+    var answer = _.reduce(this.activities, function(contexts, activity){
+      contextRay = _.map(activity.contexts, function(context){
+        return context.id
+      });
+      return _.union(contextRay, contexts)
     }, [])
+    return answer;
   }
 
   ActivityMgt.mergeIn = function(activities){

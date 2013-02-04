@@ -11,11 +11,7 @@ lifeCoach.controller("ActivityDisplayCtl", function($scope, $http, ActivityMgt, 
   }
 
   $scope.contextHasActivities = function(context){
-    console.log(ActivityMgt.activeContexts());
-    // check to see if context is
-    // in ActivityMgt.activeContexts()
-    // once ActivityMgt.activeContexts() is working
-    return true
+    return _.indexOf(ActivityMgt.activeContexts(), context.id) > -1;
   }
 
   $scope.inActiveContext = function(activity){
